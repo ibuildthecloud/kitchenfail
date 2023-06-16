@@ -1,0 +1,67 @@
+services: empty: {}
+
+services: missingimage: {
+    image: "ghcr.io/acorn-io/library/hello-world"
+}
+
+containers: running: {
+    image: "nginx"
+}
+
+containers: "zero-scale": {
+    scale: 0
+    image: "nginx"
+}
+
+containers: "bad-command": {
+    image: "busybox"
+    command: "/bin/not-found"
+}
+
+containers: "failingrestart": {
+    image: "busybox"
+    command: "false"
+}
+
+containers: "refmissingsecretjob": {
+    image: "busybox"
+    env: "missing": "@{secrets.generatedmissingjob.key}"
+    command: "false"
+}
+
+containers: "refmissingsecret": {
+    image: "busybox"
+    env: "missing": "@{secrets.not-found-secret.key}"
+    command: "false"
+}
+
+containers: "refmissingsecretkey": {
+    image: "busybox"
+    env: "missing": "@{secrets.generatedsuccess.key}"
+    command: "false"
+}
+
+jobs: jobsuccess: {
+    image: "nginx"
+    command: "/bin/sh -c 'echo success | tee /run/secrets/output'"
+}
+
+jobs: jobfail: {
+    image: "nginx"
+    command: "false"
+}
+
+jobs: jobrunning: {
+    image: "nginx"
+    command: "/bin/sh -c 'while sleep 15; do echo hello; done'"
+}
+
+secrets: generatedsuccess: {
+    type: "generated"
+    params: job: "jobsuccess"
+}
+
+secrets: generatedmissingjob: {
+    type: "generated"
+    params: job: "jobmissing"
+}
