@@ -22,3 +22,4 @@ jobs:
       - name: Build and Push
         run: |
           acorn build --push -t ghcr.io/${{ github.repository }}:${{ github.ref_name }} .
+          acorn build --push -t ghcr.io/${{ github.repository }}:latest .
