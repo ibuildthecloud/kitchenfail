@@ -1,0 +1,7 @@
+args: missingimage: "garbage"
+
+profiles: build: missingimage: "ghcr.io/acorn-io/hello-world"
+
+services: missingimage: {
+    image: args.missingimage
+}
